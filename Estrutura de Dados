@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+
+int menu();
+void inseririnicio(char* musica, char* cantor, float tempomusica);
+void listagem();
+
+
+struct Playlist_MP3
+{
+	char musica;
+	char cantor;
+	float tempomusica;
+
+	struct Playlist_MP3* prox;
+
+} *Head;
+
+int main()
+{
+	setlocale(LC_ALL, "Portuguese"); // escrever o código com acentuação
+
+	int op, c;
+	char musica[50], cantor[50];
+	float tempomusica;
+
+	while (1)
+	{
+		op = menu();
+		switch (op)
+		{
+		case 1:
+			printf("Digite o nome da música desejada: \n");
+			scanf_s("%s", musica, 50);
+			while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+
+			printf("Digite o cantor da música desejada: \n");
+			scanf_s("%s", cantor, 50);
+			while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+
+			printf("Digite o tempo da música desejada: \n");
+			scanf_s("%f", &tempomusica);
+			while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+
+			inseririnicio(musica, cantor, tempomusica);
+			break;
+
+		case 2:
+			listagem();
+			break;
+
+		case 3:
+			return 0;
+		default:
+			printf("Inválido\n");
+		}
+
+	}
+
+
+	return 0;
+
+
+
+}
+
+int menu()
+{
+	int op, c;
+	system("Cls");
+	printf("= = = PLAYLIST MÚSICAS = = = \n");
+	printf("1- Adicionar música em sua playlist\n");
+	printf("2- Liste suas músicas\n");
+	printf("3- Encerrar playlist\n\n");
+	printf("Digite sua escolha: \n");
+
+	scanf_s("%d", &op);
+	//while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+
+	system("Cls");
+	return op;
+
+}
+
+void inseririnicio(char* musica, char* cantor, float tempomusica)
+{
+	struct Playlist_MP3* NovoElemento;
+	//alocar música na memória
+	NovoElemento = (struct Playlist_MP3*)malloc(sizeof(struct Playlist_MP3));
+	NovoElemento->musica = musica;
+	NovoElemento->cantor = cantor;
+	NovoElemento->tempomusica = tempomusica;
+
+
+	if (Head == NULL)
+	{
+		Head = NovoElemento;
+		Head->prox = NULL;
+	}
+	else
+	{
+		NovoElemento->prox = Head;
+		Head = NovoElemento;
+	}
+}
+
+void listagem()
+{
+	struct Playlist_MP3* ElementoVarredura;
+	ElementoVarredura = (struct Playlist_MP3*)malloc(sizeof(struct Playlist_MP3));
+
+	ElementoVarredura = Head;
+	if (ElementoVarredura == NULL)
+	{
+		return;
+	}
+
+	while (ElementoVarredura != NULL)
+	{
+		printf("musica:%s\n", ElementoVarredura->musica);
+		printf("cantor: %s\n", ElementoVarredura->cantor);
+		printf("tempomusica: %f\n", ElementoVarredura->tempomusica);
+
+		ElementoVarredura = ElementoVarredura->prox;
+
+		system("pause");
+		return;
+	}
+
+}
