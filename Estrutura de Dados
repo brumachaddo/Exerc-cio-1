@@ -10,8 +10,8 @@ void listagem();
 
 struct Playlist_MP3
 {
-	char musica;
-	char cantor;
+	char musica[50];
+	char cantor[50];
 	float tempomusica;
 
 	struct Playlist_MP3* prox;
@@ -33,12 +33,10 @@ int main()
 		{
 		case 1:
 			printf("Digite o nome da música desejada: \n");
-			scanf_s("%s", musica, 50);
-			while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+			gets_s(musica);
 
 			printf("Digite o cantor da música desejada: \n");
-			scanf_s("%s", cantor, 50);
-			while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+			gets_s(cantor);
 
 			printf("Digite o tempo da música desejada: \n");
 			scanf_s("%f", &tempomusica);
@@ -77,7 +75,7 @@ int menu()
 	printf("Digite sua escolha: \n");
 
 	scanf_s("%d", &op);
-	//while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
+	while ((c = getchar()) != '\n' && c != EOF) {} // limpa o buffer do teclado
 
 	system("Cls");
 	return op;
@@ -89,8 +87,8 @@ void inseririnicio(char* musica, char* cantor, float tempomusica)
 	struct Playlist_MP3* NovoElemento;
 	//alocar música na memória
 	NovoElemento = (struct Playlist_MP3*)malloc(sizeof(struct Playlist_MP3));
-	NovoElemento->musica = musica;
-	NovoElemento->cantor = cantor;
+	strcpy_s(NovoElemento->musica, musica);
+	strcpy_s(NovoElemento->cantor, cantor);
 	NovoElemento->tempomusica = tempomusica;
 
 
@@ -119,14 +117,15 @@ void listagem()
 
 	while (ElementoVarredura != NULL)
 	{
-		printf("musica:%s\n", ElementoVarredura->musica);
-		printf("cantor: %s\n", ElementoVarredura->cantor);
-		printf("tempomusica: %f\n", ElementoVarredura->tempomusica);
+		printf("Musica: %s\n", ElementoVarredura->musica);
+		printf("Cantor: %s\n", ElementoVarredura->cantor);
+		printf("Tempo de musica: %.2f\n", ElementoVarredura->tempomusica);
 
 		ElementoVarredura = ElementoVarredura->prox;
 
-		system("pause");
-		return;
+		printf("\n==========================\n");
 	}
 
+	system("pause");
+	return;
 }
